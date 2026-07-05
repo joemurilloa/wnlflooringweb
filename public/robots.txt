@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Disallow admin or private paths if any exist in the future
+Disallow: /admin/
+Disallow: /private/
+
+# Sitemap location
+Sitemap: https://wnlflooring.com/sitemap.xml
