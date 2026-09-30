@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Google Consent Mode v2 — MUST load before GTM -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      // Default: deny all until user accepts
+      gtag('consent', 'default', {
+        'ad_storage':             'denied',
+        'ad_user_data':           'denied',
+        'ad_personalization':     'denied',
+        'analytics_storage':      'denied',
+        'wait_for_update':        500
+      });
+      // If user already accepted in a previous visit, grant immediately
+      if (localStorage.getItem('cookieConsent') === 'true') {
+        gtag('consent', 'update', {
+          'ad_storage':         'granted',
+          'ad_user_data':       'granted',
+          'ad_personalization': 'granted',
+          'analytics_storage':  'granted'
+        });
+      }
+    </script>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -10,7 +32,7 @@
     <!-- End Google Tag Manager -->
 
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 
     <!-- Primary SEO Meta Tags -->
     <title>WNL Flooring | Premium Tile Installation & Remodeling — Davie, Florida</title>
@@ -84,7 +106,7 @@
       "description": "Professional tile installation and remodeling services in Davie, Florida. Specializing in bathrooms, kitchens, floors, and custom tile designs.",
       "url": "https://wnlflooring.com",
       "telephone": "+17867626304",
-      "email": "wnlfooring@gmail.com",
+      "email": "wnlflooring@gmail.com",
       "logo": "https://wnlflooring.com/images/logo.png",
       "image": "https://wnlflooring.com/images/hero.jpg",
       "priceRange": "$$",

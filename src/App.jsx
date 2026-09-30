@@ -106,7 +106,7 @@ const PrivacyPolicyModal = ({ onClose }) => (
           <li>Request correction or deletion of your personal data</li>
           <li>Opt out of marketing communications at any time</li>
         </ul>
-        <p>To exercise these rights, please contact us at <strong>wnlfooring@gmail.com</strong>.</p>
+        <p>To exercise these rights, please contact us at <strong>wnlflooring@gmail.com</strong>.</p>
 
         <h3 className="text-lg font-semibold text-blue-900 mt-4">7. Children's Privacy</h3>
         <p>
@@ -124,7 +124,7 @@ const PrivacyPolicyModal = ({ onClose }) => (
         <h3 className="text-lg font-semibold text-blue-900 mt-4">9. Contact Us</h3>
         <p>If you have any questions about this Privacy Policy, please contact us:</p>
         <ul className="list-disc list-inside space-y-1 ml-2">
-          <li>Email: <a href="mailto:wnlfooring@gmail.com" className="text-blue-600 hover:underline">wnlfooring@gmail.com</a></li>
+          <li>Email: <a href="mailto:wnlflooring@gmail.com" className="text-blue-600 hover:underline">wnlflooring@gmail.com</a></li>
           <li>Phone: <a href="tel:+17867626304" className="text-blue-600 hover:underline">(786) 762-6304</a></li>
           <li>Location: Davie, Florida, United States</li>
         </ul>
@@ -224,15 +224,29 @@ const ContactForm = () => {
       setErrors(validationErrors);
       return;
     }
-    
-    // Open email client with pre-filled details (mailto fallback)
-    const subject = encodeURIComponent(`New Quote Request: ${formData.project || 'General Inquiry'} - ${formData.name}`);
-    const body = encodeURIComponent(`Name: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email}\nProject Type: ${formData.project}\n\nMessage:\n${formData.message}`);
-    
-    window.location.href = `mailto:wnlfooring@gmail.com?subject=${subject}&body=${body}`;
-    
-    setStatus('success');
-    setFormData({ name: '', phone: '', email: '', project: '', message: '' });
+    setStatus('submitting');
+    try {
+      const response = await fetch('https://formspree.io/f/xpwrjgdk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          _replyto: formData.email,
+          project: formData.project,
+          message: formData.message,
+          _subject: `New Quote Request: ${formData.project || 'General Inquiry'} - ${formData.name}`,
+        }),
+      });
+      if (response.ok) {
+        setStatus('success');
+        setFormData({ name: '', phone: '', email: '', project: '', message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   };
 
   if (status === 'success') {
@@ -394,6 +408,15 @@ const App = () => {
   const handleAcceptCookies = () => {
     localStorage.setItem('cookieConsent', 'true');
     setCookieConsent(true);
+    // Google Consent Mode v2 — grant all after user accepts
+    if (typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', {
+        'ad_storage':         'granted',
+        'ad_user_data':       'granted',
+        'ad_personalization': 'granted',
+        'analytics_storage':  'granted'
+      });
+    }
   };
 
   // Cambio automático de imágenes en el hero
@@ -418,8 +441,8 @@ const App = () => {
     if (isMenuOpen) toggleMenu();
   };
 
-  const handleCallClick = () => { window.location.href = "tel:+17867626304"; };
-  const handleMessageClick = () => { window.location.href = "sms:+17867626304"; };
+  const handleCallClick = () => { window.open("tel:+17867626304", "_self"); };
+  const handleMessageClick = () => { window.open("https://wa.me/17867626304", "_blank"); };
 
   return (
     <>
@@ -892,7 +915,7 @@ const App = () => {
                       </div>
                       <div>
                         <h4 className="text-lg font-semibold text-gray-800 mb-1">Email</h4>
-                        <a href="mailto:wnlfooring@gmail.com" className="text-gray-600 hover:text-blue-600 break-all">wnlfooring@gmail.com</a>
+                        <a href="mailto:wnlflooring@gmail.com" className="text-gray-600 hover:text-blue-600 break-all">wnlflooring@gmail.com</a>
                       </div>
                     </div>
                     <div className="flex items-start">
@@ -982,7 +1005,7 @@ const App = () => {
                   <a href="tel:+17867626304" aria-label="Call WNL Flooring" className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-400 transition-colors">
                     <PhoneCall size={18} />
                   </a>
-                  <a href="mailto:wnlfooring@gmail.com" aria-label="Email WNL Flooring" className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-400 transition-colors">
+                  <a href="mailto:wnlflooring@gmail.com" aria-label="Email WNL Flooring" className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-400 transition-colors">
                     <Mail size={18} />
                   </a>
                 </div>
